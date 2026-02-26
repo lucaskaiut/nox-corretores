@@ -7,6 +7,7 @@ import type {
   User,
 } from "@/types/auth";
 import type { Customer } from "@/types/customer";
+import type { InsuranceCompany } from "@/types/insurance-company";
 import type { LaravelPaginatedResponse } from "@/types/grid";
 
 const DELAY_MS = 800;
@@ -393,7 +394,103 @@ async function dispatch<T>(endpoint: string, payload?: unknown): Promise<T> {
     return buildCustomersResponse(basePath, params) as T;
   }
 
-  if (endpoint === "/insurance-companies") {
+  const insuranceIdMatch = endpoint.match(/^\/insurance-companies\/(\d+)$/);
+  if (insuranceIdMatch && method === "GET") {
+    const id = parseInt(insuranceIdMatch[1], 10);
+    const company = MOCK_INSURANCE_COMPANIES.find((c) => c.id === id);
+    if (!company) throw new Error(`Seguradora ${id} não encontrada`);
+    return company as T;
+  }
+
+  if (insuranceIdMatch && method === "PUT") {
+    const id = parseInt(insuranceIdMatch[1], 10);
+    const idx = MOCK_INSURANCE_COMPANIES.findIndex((c) => c.id === id);
+    if (idx === -1) throw new Error(`Seguradora ${id} não encontrada`);
+    const data = (payload as { body?: Record<string, unknown> })?.body ?? payload;
+    const patch = data as Record<string, unknown>;
+    if (patch.name !== undefined) {
+      MOCK_INSURANCE_COMPANIES[idx] = {
+        ...MOCK_INSURANCE_COMPANIES[idx],
+        name: String(patch.name).trim(),
+      };
+    }
+    return MOCK_INSURANCE_COMPANIES[idx] as T;
+  }
+
+  if (endpoint === "/insurance-companies" && method === "POST") {
+    const data = (payload as { body?: Record<string, unknown> })?.body ?? payload;
+    const body = data as Record<string, unknown>;
+    const ids = MOCK_INSURANCE_COMPANIES.map((c) => c.id);
+    const nextId = Math.max(0, ...ids) + 1;
+    const newCompany: InsuranceCompany = {
+      id: nextId,
+      name: String(body.name ?? "").trim(),
+    };
+    MOCK_INSURANCE_COMPANIES.push(newCompany);
+    return newCompany as T;
+  }
+
+  if (endpoint.startsWith("/insurance-companies")) {
+    const params = parseQueryParams(endpoint);
+    const pageParam = params.page;
+    if (pageParam) {
+      const basePath = endpoint.split("?")[0];
+      const page = Math.max(1, parseInt(pageParam, 10));
+      const perPage = Math.min(50, Math.max(1, parseInt(params.per_page ?? "15", 10)));
+      const sort = params.sort ?? "name";
+      const order = (params.order ?? "asc") as "asc" | "desc";
+      const filters = getFilterParams(params);
+      let data = applyFilters(
+        MOCK_INSURANCE_COMPANIES as unknown as Customer[],
+        filters
+      ) as unknown as InsuranceCompany[];
+      data = applySort(
+        data as unknown as Customer[],
+        sort,
+        order
+      ) as unknown as InsuranceCompany[];
+      const total = data.length;
+      const lastPage = Math.max(1, Math.ceil(total / perPage));
+      const currentPage = Math.min(page, lastPage);
+      const start = (currentPage - 1) * perPage;
+      const paginatedData = data.slice(start, start + perPage);
+      const from = total === 0 ? null : start + 1;
+      const to = total === 0 ? null : Math.min(start + perPage, total);
+      const buildUrl = (p: number) => {
+        const u = new URLSearchParams(params);
+        u.set("page", String(p));
+        return `${basePath}?${u.toString()}`;
+      };
+      const links = [
+        { url: null, label: "&laquo; Anterior", page: null, active: false },
+        ...Array.from({ length: lastPage }, (_, i) => i + 1).map((p) => ({
+          url: buildUrl(p),
+          label: String(p),
+          page: p,
+          active: p === currentPage,
+        })),
+        { url: null, label: "Próximo &raquo;", page: null, active: false },
+      ];
+      return {
+        data: paginatedData,
+        links: {
+          first: buildUrl(1),
+          last: buildUrl(lastPage),
+          prev: currentPage > 1 ? buildUrl(currentPage - 1) : null,
+          next: currentPage < lastPage ? buildUrl(currentPage + 1) : null,
+        },
+        meta: {
+          current_page: currentPage,
+          from,
+          last_page: lastPage,
+          links,
+          path: basePath,
+          per_page: perPage,
+          to,
+          total,
+        },
+      } as T;
+    }
     return MOCK_INSURANCE_COMPANIES as T;
   }
 

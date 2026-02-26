@@ -1,33 +1,13 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { insuranceCompaniesService } from "@/services/insuranceCompaniesService";
+import { InsuranceCompaniesClient } from "./insurance-companies-client";
 
-export default function InsuranceCompaniesPage() {
-  return (
-    <div>
-      <header className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground">Seguradoras</h1>
-        <p className="mt-1 text-neutral-400">
-          Gerencie seguradoras parceiras
-        </p>
-      </header>
-      <Card className="border-neutral-800 bg-neutral-900/50">
-        <CardHeader>
-          <CardTitle>Gestão de Seguradoras</CardTitle>
-          <CardDescription>
-            Em breve: listagem e cadastro de seguradoras
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-neutral-500">
-            Esta seção está em desenvolvimento.
-          </p>
-        </CardContent>
-      </Card>
-    </div>
-  );
+export default async function InsuranceCompaniesPage() {
+  const initialData = await insuranceCompaniesService.listPaginated({
+    page: 1,
+    per_page: 15,
+    sort: "name",
+    order: "asc",
+  });
+
+  return <InsuranceCompaniesClient initialData={initialData} />;
 }
