@@ -79,8 +79,8 @@ export function DataGrid<T extends object>({
   }, [onFilterApply]);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900/50">
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 px-4 py-3 dark:border-neutral-800">
+    <div className="flex max-h-[calc(100svh-8rem)] min-h-0 flex-col overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900/50">
+      <div className="flex shrink-0 flex-wrap items-center justify-between gap-4 border-b border-neutral-200 px-4 py-3 dark:border-neutral-800">
         <div className="flex items-center gap-2">
           {hasFilterSupport && (
             <Button variant="secondary" size="sm" onClick={handleOpenDrawer}>
@@ -103,12 +103,14 @@ export function DataGrid<T extends object>({
         </div>
       </div>
 
-      <GridBadges
-        filters={activeFilters}
-        onRemove={onFilterRemove ?? (() => {})}
-      />
+      <div className="shrink-0">
+        <GridBadges
+          filters={activeFilters}
+          onRemove={onFilterRemove ?? (() => {})}
+        />
+      </div>
 
-      <div className="overflow-x-hidden overflow-y-visible">
+      <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
         <table className="w-full table-fixed">
           <GridHeader
             columns={columns}
@@ -117,7 +119,7 @@ export function DataGrid<T extends object>({
             onSort={(accessor) => {
               const col = columns.find((c) => c.accessor === accessor);
               if (!col?.sortable) return;
-              let next: SortOrder =
+              const next: SortOrder =
                 sortKey === accessor
                   ? sortOrder === "asc"
                     ? "desc"
@@ -181,11 +183,15 @@ export function DataGrid<T extends object>({
         </table>
       </div>
 
-      <GridPagination
-        meta={pagination}
-        loading={loading}
-        onPageChange={onPageChange}
-      />
+      {pagination.total > 0 && (
+        <div className="shrink-0 border-t border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900/50">
+          <GridPagination
+            meta={pagination}
+            loading={loading}
+            onPageChange={onPageChange}
+          />
+        </div>
+      )}
 
       {hasFilterSupport && (
         <GridFiltersDrawer
