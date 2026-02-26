@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { DataGrid } from "@/components/grid";
 import type { FilterField } from "@/components/grid";
 import { customerService } from "@/services/customerService";
@@ -52,6 +54,7 @@ interface CustomersClientProps {
 }
 
 export function CustomersClient({ initialData }: CustomersClientProps) {
+  const router = useRouter();
   const [data, setData] = useState(initialData);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -134,9 +137,12 @@ export function CustomersClient({ initialData }: CustomersClientProps) {
     [filters, fetchData]
   );
 
-  const handleEdit = useCallback((row: Customer) => {
-    console.log("Editar", row);
-  }, []);
+  const handleEdit = useCallback(
+    (row: Customer) => {
+      router.push(`/customer/${row.id}/edit`);
+    },
+    [router]
+  );
 
   const handleDelete = useCallback((row: Customer) => {
     console.log("Excluir", row);
@@ -144,11 +150,19 @@ export function CustomersClient({ initialData }: CustomersClientProps) {
 
   return (
     <div>
-      <header className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground">Clientes</h1>
-        <p className="mt-1 text-neutral-500 dark:text-neutral-400">
-          Gerencie seus clientes e informações
-        </p>
+      <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Clientes</h1>
+          <p className="mt-1 text-neutral-500 dark:text-neutral-400">
+            Gerencie seus clientes e informações
+          </p>
+        </div>
+        <Link
+          href="/customer/create"
+          className="inline-flex h-11 items-center justify-center rounded-lg bg-primary-600 px-6 font-medium text-white shadow-sm transition-colors hover:bg-primary-700"
+        >
+          Novo cliente
+        </Link>
       </header>
       <DataGrid<Customer>
         columns={COLUMNS}

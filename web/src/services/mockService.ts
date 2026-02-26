@@ -281,6 +281,112 @@ async function dispatch<T>(endpoint: string, payload?: unknown): Promise<T> {
     return undefined as T;
   }
 
+  const customersIdMatch = endpoint.match(/^\/customers\/(\d+)$/);
+  const method = (payload as { method?: string })?.method ?? "GET";
+
+  if (customersIdMatch && method === "GET") {
+    const id = parseInt(customersIdMatch[1], 10);
+    const customer = MOCK_CUSTOMERS.find((c) => c.id === id);
+    if (!customer) throw new Error(`Cliente ${id} não encontrado`);
+    return customer as T;
+  }
+
+  if (
+    customersIdMatch &&
+    method === "PUT"
+  ) {
+    const id = parseInt(customersIdMatch[1], 10);
+    const idx = MOCK_CUSTOMERS.findIndex((c) => c.id === id);
+    if (idx === -1) throw new Error(`Cliente ${id} não encontrado`);
+    const data = (payload as { body?: Record<string, unknown> })?.body ?? payload;
+    const patch = data as Record<string, unknown>;
+    const current = MOCK_CUSTOMERS[idx];
+    const { MOCK_INSURANCE_COMPANIES } = await import("@/data/mock-insurance-companies");
+    if (patch.name !== undefined) current.name = String(patch.name).trim();
+    if (patch.email !== undefined) current.email = String(patch.email).trim();
+    if (patch.document !== undefined) current.document = String(patch.document).trim();
+    if (patch.phone !== undefined) current.phone = String(patch.phone).trim();
+    if (patch.insuranceCompanyId !== undefined) {
+      const ins = MOCK_INSURANCE_COMPANIES.find(
+        (c) => c.id === (patch.insuranceCompanyId as number)
+      );
+      if (ins) current.insuranceCompany = { id: ins.id, name: ins.name };
+    }
+    const v = patch.vehicle as Record<string, unknown> | undefined;
+    if (v) {
+      if (v.model !== undefined) current.vehicle.model = String(v.model);
+      if (v.brand !== undefined) current.vehicle.brand = String(v.brand);
+      if (v.plate !== undefined) current.vehicle.plate = String(v.plate);
+      if (v.year !== undefined) current.vehicle.year = Number(v.year);
+      if (v.initialKm !== undefined) current.vehicle.initialKm = Number(v.initialKm);
+      if (v.renavam !== undefined) current.vehicle.renavam = String(v.renavam);
+    }
+    const p = patch.policy as Record<string, unknown> | undefined;
+    if (p) {
+      if (!current.policy) current.policy = { number: "", value: 0 };
+      if (p.number !== undefined) current.policy.number = String(p.number);
+      if (p.value !== undefined) current.policy.value = Number(p.value);
+    }
+    const d = patch.driverLicense as Record<string, unknown> | undefined;
+    if (d) {
+      if (!current.driverLicense)
+        current.driverLicense = { registration: "", expirationDate: "" };
+      if (d.registration !== undefined)
+        current.driverLicense.registration = String(d.registration);
+      if (d.expirationDate !== undefined)
+        current.driverLicense.expirationDate = String(d.expirationDate);
+    }
+    return current as T;
+  }
+
+  if (endpoint === "/customers" && method === "POST") {
+    const data = (payload as { body?: Record<string, unknown> })?.body ?? payload;
+    const body = data as Record<string, unknown>;
+    const ids = MOCK_CUSTOMERS.map((c) => c.id);
+    const nextId = Math.max(0, ...ids) + 1;
+    const { MOCK_INSURANCE_COMPANIES } = await import("@/data/mock-insurance-companies");
+    const ins = MOCK_INSURANCE_COMPANIES.find(
+      (c) => c.id === (body.insuranceCompanyId as number)
+    );
+    const vehicle = (body.vehicle ?? {}) as Record<string, unknown>;
+    const policy = (body.policy ?? {}) as Record<string, unknown>;
+    const driverLicense = (body.driverLicense ?? {}) as Record<string, unknown>;
+    const newCustomer: Customer = {
+      id: nextId,
+      name: String(body.name ?? "").trim(),
+      email: String(body.email ?? "").trim(),
+      document: String(body.document ?? "").trim(),
+      phone: String(body.phone ?? "").trim(),
+      insuranceCompany: ins
+        ? { id: ins.id, name: ins.name }
+        : { id: 0, name: "" },
+      vehicle: {
+        model: String(vehicle.model ?? ""),
+        brand: String(vehicle.brand ?? ""),
+        plate: String(vehicle.plate ?? ""),
+        year: Number(vehicle.year ?? 0),
+        initialKm: vehicle.initialKm != null ? Number(vehicle.initialKm) : undefined,
+        renavam: vehicle.renavam != null ? String(vehicle.renavam) : undefined,
+      },
+      policy: {
+        number: policy.number != null ? String(policy.number) : undefined,
+        value: policy.value != null ? Number(policy.value) : undefined,
+      },
+      driverLicense: {
+        registration:
+          driverLicense.registration != null
+            ? String(driverLicense.registration)
+            : undefined,
+        expirationDate:
+          driverLicense.expirationDate != null
+            ? String(driverLicense.expirationDate)
+            : undefined,
+      },
+    };
+    MOCK_CUSTOMERS.push(newCustomer);
+    return newCustomer as T;
+  }
+
   if (endpoint.startsWith("/customers")) {
     const basePath = endpoint.split("?")[0];
     const params = parseQueryParams(endpoint);

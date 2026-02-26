@@ -1,5 +1,9 @@
 import { apiService } from "./apiService";
-import type { Customer } from "@/types/customer";
+import type {
+  Customer,
+  CustomerCreatePayload,
+  CustomerUpdatePayload,
+} from "@/types/customer";
 import type { LaravelPaginatedResponse } from "@/types/grid";
 
 export interface ListCustomersParams {
@@ -33,5 +37,17 @@ export const customerService = {
     return apiService.get<LaravelPaginatedResponse<Customer>>(
       `/customers${query}`
     );
+  },
+
+  async getById(id: number): Promise<Customer> {
+    return apiService.get<Customer>(`/customers/${id}`);
+  },
+
+  async create(payload: CustomerCreatePayload): Promise<Customer> {
+    return apiService.post<Customer>("/customers", payload);
+  },
+
+  async update(id: number, payload: CustomerUpdatePayload): Promise<Customer> {
+    return apiService.put<Customer>(`/customers/${id}`, payload);
   },
 };

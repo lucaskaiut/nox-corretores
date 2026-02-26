@@ -16,11 +16,10 @@ class ApiService {
     config: ApiRequestConfig = {}
   ): Promise<T> {
     const { method = "GET", body } = config;
-
     const payload =
       body !== undefined
-        ? { body, headers: config.headers }
-        : { headers: config.headers };
+        ? { method, body, headers: config.headers }
+        : { method, headers: config.headers };
     return mockService.getData<T>(endpoint, payload);
   }
 
