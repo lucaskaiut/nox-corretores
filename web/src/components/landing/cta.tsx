@@ -4,13 +4,13 @@ export function CTA() {
   return (
     <section className="px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
       <div className="mx-auto max-w-4xl">
-        <div className="relative overflow-hidden rounded-3xl border border-neutral-800 bg-gradient-to-br from-[#9333ea]/20 via-neutral-900 to-neutral-950 px-8 py-16 text-center sm:px-12 sm:py-20">
+        <div className="relative overflow-hidden rounded-3xl border border-neutral-200 bg-gradient-to-br from-[#9333ea]/10 via-neutral-100 to-neutral-200 px-8 py-16 text-center dark:border-neutral-800 dark:from-[#9333ea]/20 dark:via-neutral-900 dark:to-neutral-950 sm:px-12 sm:py-20">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(147,51,234,0.15),transparent)]" />
           <div className="relative">
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            <h2 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
               Simplifique sua rotina de corretor
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-lg text-neutral-400">
+            <p className="mx-auto mt-4 max-w-xl text-lg text-neutral-600 dark:text-neutral-400">
               Junte-se a corretores que já centralizaram clientes, veículos e
               apólices em um só lugar.
             </p>

@@ -71,10 +71,10 @@ export function Features() {
     <section className="px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
             Tudo que você precisa para o dia a dia
           </h2>
-          <p className="mt-4 text-lg text-neutral-400">
+          <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400">
             Funcionalidades pensadas para simplificar a rotina do corretor
           </p>
         </div>
@@ -82,7 +82,7 @@ export function Features() {
           {features.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-neutral-800 bg-neutral-900/30 p-6 transition-all hover:border-neutral-700 hover:bg-neutral-900/50"
+              className="rounded-2xl border border-neutral-200 bg-white p-6 transition-all hover:border-neutral-300 hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900/30 dark:hover:border-neutral-700 dark:hover:bg-neutral-900/50"
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#9333ea]/10 text-[#9333ea]">
                 <svg
@@ -94,8 +94,8 @@ export function Features() {
                   {item.icon}
                 </svg>
               </div>
-              <h3 className="mt-4 font-semibold text-white">{item.title}</h3>
-              <p className="mt-2 text-sm text-neutral-400">{item.description}</p>
+              <h3 className="mt-4 font-semibold text-neutral-900 dark:text-white">{item.title}</h3>
+              <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">{item.description}</p>
             </div>
           ))}
         </div>

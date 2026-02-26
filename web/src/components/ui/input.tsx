@@ -11,11 +11,11 @@ export interface InputProps
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ error = false, loading = false, className = "", ...props }, ref) => {
     const base =
-      "flex h-11 w-full rounded-lg border bg-neutral-900/50 px-4 py-2 text-foreground placeholder:text-neutral-500 transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium";
+      "flex h-11 w-full rounded-lg border bg-neutral-50 px-4 py-2 text-foreground placeholder:text-neutral-500 transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium dark:bg-neutral-900/50";
 
     const states = error
       ? "border-red-500/70 focus-visible:border-red-500 focus-visible:ring-red-500/30"
-      : "border-neutral-700 focus-visible:border-primary-500 focus-visible:ring-primary-500/30";
+      : "border-neutral-300 focus-visible:border-primary-500 focus-visible:ring-primary-500/30 dark:border-neutral-700";
 
     const focusRing = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50";
 

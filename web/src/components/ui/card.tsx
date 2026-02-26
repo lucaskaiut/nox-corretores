@@ -8,7 +8,7 @@ const Card = forwardRef<
 >(({ className = "", ...props }, ref) => (
   <div
     ref={ref}
-    className={`rounded-xl border border-neutral-800 bg-neutral-900/50 shadow-xl ${className}`}
+    className={`rounded-xl border border-neutral-200 bg-white shadow-xl dark:border-neutral-800 dark:bg-neutral-900/50 ${className}`}
     {...props}
   />
 ));
@@ -43,7 +43,7 @@ const CardDescription = forwardRef<
 >(({ className = "", ...props }, ref) => (
   <p
     ref={ref}
-    className={`text-sm text-neutral-400 ${className}`}
+    className={`text-sm text-neutral-500 dark:text-neutral-400 ${className}`}
     {...props}
   />
 ));

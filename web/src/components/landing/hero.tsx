@@ -7,10 +7,10 @@ export function Hero() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-center">
           <div className="max-w-2xl">
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+            <h1 className="text-4xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-5xl lg:text-6xl">
               Organize clientes, veículos e apólices em um só lugar
             </h1>
-            <p className="mt-6 text-lg leading-8 text-neutral-400 sm:text-xl">
+            <p className="mt-6 text-lg leading-8 text-neutral-600 dark:text-neutral-400 sm:text-xl">
               Plataforma completa para corretores de seguros. Cadastre clientes,
               gerencie veículos e controle apólices com facilidade. Tudo
               centralizado para aumentar sua produtividade.
@@ -24,15 +24,15 @@ export function Hero() {
               </Link>
               <Link
                 href="/login"
-                className="inline-flex h-14 items-center justify-center rounded-xl border border-neutral-600 bg-transparent px-8 text-base font-medium text-neutral-300 transition-all hover:border-neutral-500 hover:bg-neutral-800/50 hover:text-white"
+                className="inline-flex h-14 items-center justify-center rounded-xl border border-neutral-400 bg-transparent px-8 text-base font-medium text-neutral-700 transition-all hover:border-neutral-500 hover:bg-neutral-100 dark:border-neutral-600 dark:text-neutral-300 dark:hover:bg-neutral-800/50 dark:hover:text-white"
               >
                 Já tenho conta
               </Link>
             </div>
           </div>
           <div className="relative flex items-center justify-center lg:justify-end">
-            <div className="relative aspect-[4/3] w-full max-w-lg overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/50 shadow-2xl shadow-black/50">
-              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-neutral-900 to-neutral-950">
+            <div className="relative aspect-[4/3] w-full max-w-lg overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100 shadow-2xl dark:border-neutral-800 dark:bg-neutral-900/50 dark:shadow-black/50">
+              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-900 dark:to-neutral-950">
                 <div className="flex flex-col items-center gap-4 p-8 text-center">
                   <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-[#9333ea]/20 text-[#9333ea]">
                     <svg
@@ -49,10 +49,10 @@ export function Hero() {
                       />
                     </svg>
                   </div>
-                  <p className="text-sm font-medium text-neutral-500">
+                  <p className="text-sm font-medium text-neutral-500 dark:text-neutral-500">
                     Interface do sistema
                   </p>
-                  <p className="text-xs text-neutral-600">
+                  <p className="text-xs text-neutral-600 dark:text-neutral-600">
                     Painel centralizado para gestão completa
                   </p>
                 </div>

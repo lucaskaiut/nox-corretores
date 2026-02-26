@@ -55,13 +55,13 @@ const benefits = [
 
 export function Benefits() {
   return (
-    <section className="border-y border-neutral-800/50 bg-neutral-900/30 px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <section className="border-y border-neutral-200 bg-neutral-100 px-4 py-20 dark:border-neutral-800/50 dark:bg-neutral-900/30 sm:px-6 lg:px-8 lg:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
             Benefícios que fazem a diferença
           </h2>
-          <p className="mt-4 text-lg text-neutral-400">
+          <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400">
             Resultados reais para sua produtividade e profissionalismo
           </p>
         </div>
@@ -69,7 +69,7 @@ export function Benefits() {
           {benefits.map((item) => (
             <div
               key={item.title}
-              className="relative overflow-hidden rounded-2xl border border-neutral-700/50 bg-gradient-to-b from-neutral-900 to-neutral-950 p-8 shadow-xl transition-all hover:border-[#9333ea]/40 hover:shadow-[#9333ea]/5"
+              className="relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-8 shadow-xl transition-all hover:border-[#9333ea]/40 hover:shadow-[#9333ea]/5 dark:border-neutral-700/50 dark:bg-gradient-to-b dark:from-neutral-900 dark:to-neutral-950"
             >
               <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[#9333ea]/10 blur-2xl" />
               <div className="relative">
@@ -83,10 +83,10 @@ export function Benefits() {
                     {item.icon}
                   </svg>
                 </div>
-                <h3 className="mt-6 text-lg font-semibold text-white">
+                <h3 className="mt-6 text-lg font-semibold text-neutral-900 dark:text-white">
                   {item.title}
                 </h3>
-                <p className="mt-3 text-neutral-400">{item.description}</p>
+                <p className="mt-3 text-neutral-600 dark:text-neutral-400">{item.description}</p>
               </div>
             </div>
           ))}

@@ -55,13 +55,13 @@ const pains = [
 
 export function ProblemSolution() {
   return (
-    <section className="border-y border-neutral-800/50 bg-neutral-900/30 px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <section className="border-y border-neutral-200 bg-neutral-100 px-4 py-20 dark:border-neutral-800/50 dark:bg-neutral-900/30 sm:px-6 lg:px-8 lg:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
             De informações espalhadas a controle total
           </h2>
-          <p className="mt-4 text-lg text-neutral-400">
+          <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400">
             Conheça as principais dores dos corretores e como o Nox resolve cada
             uma delas
           </p>
@@ -70,7 +70,7 @@ export function ProblemSolution() {
           {pains.map((item) => (
             <div
               key={item.title}
-              className="group rounded-2xl border border-neutral-800 bg-neutral-900/50 p-6 transition-all hover:border-[#9333ea]/50 hover:bg-neutral-900"
+              className="group rounded-2xl border border-neutral-200 bg-white p-6 transition-all hover:border-[#9333ea]/50 hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900/50 dark:hover:bg-neutral-900"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#9333ea]/10 text-[#9333ea] transition-colors group-hover:bg-[#9333ea]/20">
                 <svg
@@ -82,8 +82,8 @@ export function ProblemSolution() {
                   {item.icon}
                 </svg>
               </div>
-              <h3 className="mt-4 font-semibold text-white">{item.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-neutral-400">
+              <h3 className="mt-4 font-semibold text-neutral-900 dark:text-white">{item.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
                 {item.description}
               </p>
             </div>

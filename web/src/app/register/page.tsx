@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Input } from "@/components/ui/input";
 import {
   Card,
@@ -86,9 +87,12 @@ export default function RegisterPage() {
   const isSubmitting = loading || authLoading;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-950 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-neutral-50 p-4 dark:bg-neutral-950">
+      <div className="absolute right-4 top-4 md:right-8 md:top-8">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-md">
-        <Card className="border-neutral-800 bg-neutral-900/80 backdrop-blur">
+        <Card className="border-neutral-200 bg-white/80 backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/80">
           <CardHeader className="space-y-1 text-center">
             <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-xl bg-primary-600/20 text-primary-500">
               <svg
