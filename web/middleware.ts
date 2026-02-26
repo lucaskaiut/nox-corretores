@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getAuthTokenFromHeaders } from "./src/lib/auth-cookie";
 
-const PUBLIC_PATHS = ["/login"];
-const AUTH_PATHS = ["/login"];
+const PUBLIC_PATHS = ["/login", "/register"];
+const AUTH_PATHS = ["/login", "/register"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

@@ -8,13 +8,14 @@ import {
   useState,
 } from "react";
 import { userService } from "@/services/userService";
-import type { LoginPayload, User } from "@/types/auth";
+import type { LoginPayload, RegisterPayload, User } from "@/types/auth";
 
 interface AuthContextValue {
   user: User | null;
   authenticated: boolean;
   loading: boolean;
   login: (payload: LoginPayload) => Promise<void>;
+  register: (payload: RegisterPayload) => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
 }
@@ -73,6 +74,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     []
   );
 
+  const register = useCallback(
+    async (payload: RegisterPayload) => {
+      setLoading(true);
+      try {
+        const { user: userData, token } = await userService.register(payload);
+        await setAuthCookie(token);
+        setUser(userData);
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
   const logout = useCallback(async () => {
     setLoading(true);
     try {
@@ -89,6 +104,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     authenticated: !!user,
     loading,
     login,
+    register,
     logout,
     refreshUser,
   };

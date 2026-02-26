@@ -9,8 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Nox Corretores",
-  description: "Sistema de autenticação",
+  title: "Nox Corretores | Organize clientes, veículos e apólices",
+  description:
+    "Plataforma para corretores de seguros cadastrarem e organizarem clientes, veículos e apólices. Controle diário centralizado e produtividade em um só lugar.",
 };
 
 export default function RootLayout({
@@ -19,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className="dark">
+    <html lang="pt-BR" className="dark scroll-smooth">
       <body
         className={`${inter.variable} antialiased bg-neutral-950 text-foreground`}
       >
